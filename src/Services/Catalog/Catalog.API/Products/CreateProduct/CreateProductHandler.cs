@@ -20,7 +20,6 @@ internal class CreateProductCommandHandler : ICommandHandler<CreateProductComman
             ImageFile = command.ImageFile,
         };
 
-
         // Save to DB
 
         // Return Result
