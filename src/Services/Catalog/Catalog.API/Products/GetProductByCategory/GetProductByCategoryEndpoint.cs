@@ -12,11 +12,11 @@ namespace Catalog.API.Products.GetProductByCategory
         {
             app.MapGet("/products/category/{category}", async (string category, ISender sender) =>
             {
-                var results = sender.Send(new GetProductByCategoryQuery(category));
+                var results = await sender.Send(new GetProductByCategoryQuery(category));
                 var response = results.Adapt<GetProductByCategoryResponse>();
                 return Results.Ok(response);
             }).WithName("GetProductByCategoryEndpoint")
-                .Produces<GetProductByCategoryResponse>(StatusCodes.Status201Created)
+                .Produces<GetProductByCategoryResponse>(StatusCodes.Status200OK)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .WithSummary("Get Product by Category")
                 .WithDescription("Get Product by Category"); ;
