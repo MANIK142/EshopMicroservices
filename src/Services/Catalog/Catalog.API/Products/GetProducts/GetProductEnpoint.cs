@@ -4,15 +4,16 @@ using Catalog.API.Products.CreateProduct;
 
 namespace Catalog.API.Products.GetProducts
 {
-    public record GetProductsRequest();
+    public record GetProductsRequest(int? PageNumber,int? PageSize);
     public record GetProductsResult(IEnumerable<Product> Products);
     public class GetProductEnpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products", async (ISender sender) =>
+            app.MapGet("/products", async ([AsParameters]GetProductsRequest request, ISender sender) =>
             {
-                var result = await sender.Send(new GetProductsQuery());
+                var query = request.Adapt<GetProductsQuery>();
+                var result = await sender.Send(query);
                 var response = result.Adapt<GetProductsResult>();
                 return Results.Ok(response);
             }).WithName("GetProduct")
